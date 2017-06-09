@@ -1,2 +1,6 @@
 # Spark-Test-Project
-Just a test
+
+Default account:
+
+username: admin
+password: 123
