@@ -14,25 +14,37 @@ function setActive($page = null) {
 
 $user = new User();
 
+// Navigation items
+$items = array();
+
+if ($user->isLoggedIn()) {
+	$items[] = [   'page',  'left'];
+	$items[] = ['members',  'left'];
+	$items[] = [   'book',  'left'];
+	$items[] = [ 'logout', 'right'];
+	$items[] = ['profile', 'right'];
+} else {
+	$items[] = [   'index',  'left'];
+	$items[] = ['register', 'right'];
+	$items[] = [   'login', 'right'];
+}
+
+function generateNavigation(array $items)
+{
+	echo '<div class="navigation"> <ul>';
+
+	foreach ($items as $item) {
+		echo '<li ' . setActive($item[0]) . ' style="float: ' . $item[1] . '"><a href="' . $item[0] . '.php">' . ucfirst($item[0]) . '</a></li>';
+	}
+
+	echo '</div> </ul>';
+}
+
 ?>
 
 <body>
 
-<div class="navigation">
-	<ul>
-		<?php if (!$user->isLoggedIn()) { ?>
-		<li<?php echo setActive('index'); ?>><a href="index.php">Index</a></li>
-		<li<?php echo setActive('register'); ?> style="float: right"><a href="register.php">Register</a></li>
-		<li<?php echo setActive('login'); ?> style="float: right"><a href="login.php">Login</a></li>
-		<?php } else { ?>
-		<li<?php echo setActive('page'); ?>><a href="page.php">Index</a></li>
-		<li<?php echo setActive('members'); ?>><a href="members.php">Members</a></li>
-		<li<?php echo setActive('book'); ?>><a href="book.php">Books</a></li>
-		<li<?php echo setActive(); ?> style="float: right"><a href="logout.php">Logout</a></li>
-		<li<?php echo setActive('profile'); ?> style="float: right"><a href="profile.php">Profile</a></li>
-		<?php } ?>
-	</ul>	
-</div>
+<?php generateNavigation($items); ?>
 
 </body>
 
