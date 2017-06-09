@@ -33,6 +33,13 @@ if (empty($_GET)) {
 		if ($option !== null) {
 			$data = $book->getData();
 
+			if ($option !== 'add') {
+				if (!$book->exist()) {
+					Alert::error("Book does not exist");
+					die;
+				}
+			}
+
 			if ($option === 'add') {
 
 				if (!$user->hasPermission(PERMISSION_MODERATOR)) {
@@ -43,11 +50,6 @@ if (empty($_GET)) {
 
 			} elseif ($option === 'remove') {
 
-				if (!$book->exist()) {
-					Alert::error("Book does not exist");
-					die;
-				}
-
 				if (!$user->hasPermission(PERMISSION_MODERATOR)) {
 					Redirect::to('book.php?id=' . $bookId . '&option=preview');
 				}
@@ -55,11 +57,6 @@ if (empty($_GET)) {
 				require_once(__DIR__ . '/include/removebook.php');
 
 			} elseif ($option === 'edit') {
-
-				if (!$book->exist()) {
-					Alert::error("Book does not exist");
-					die;
-				}
 
 				if (!$user->hasPermission(PERMISSION_MODERATOR)) {
 					Redirect::to('book.php?id=' . $bookId . '&option=preview');
@@ -69,19 +66,9 @@ if (empty($_GET)) {
 
 			} elseif ($option === 'preview') {
 
-				if (!$book->exist()) {
-					Alert::error("Book does not exist");
-					die;
-				}
-
 				require_once(__DIR__ . '/include/previewbook.php');
 
 			} elseif ($option === 'rent') {
-
-				if (!$book->exist()) {
-					Alert::error("Book does not exist");
-					die;
-				}
 
 				$success = false;
 				$error = array();
@@ -107,11 +94,6 @@ if (empty($_GET)) {
 
 			} elseif ($option === 'unrent') {
 
-				if (!$book->exist()) {
-					Alert::error("Book does not exist");
-					die;
-				}
-
 				$success = false;
 				$error = array();
 
@@ -135,11 +117,6 @@ if (empty($_GET)) {
 				require_once(__DIR__ . '/include/previewbook.php');
 
 			} elseif ($option === 'removecomment') {
-
-				if (!$book->exist()) {
-					Alert::error("Book does not exist");
-					die;
-				}
 
 				if (!isset($_GET['comment_id'])) {
 					Alert::error("Book does not exist");
